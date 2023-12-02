@@ -1,6 +1,8 @@
 package br.com.erudio.services;
 
 import br.com.erudio.model.Person;
+import br.com.erudio.repositories.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,6 +16,9 @@ public class PersonServices {
 
     private final AtomicLong counter = new AtomicLong();
     private Logger logger  = Logger.getLogger(PersonServices.class.getName());
+
+    @Autowired
+    PersonRepository repository;
 
     public Person create(Person person){
         logger.info("Creating one person");

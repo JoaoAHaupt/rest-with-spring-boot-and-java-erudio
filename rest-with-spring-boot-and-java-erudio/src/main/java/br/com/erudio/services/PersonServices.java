@@ -1,67 +1,84 @@
 package br.com.erudio.services;
 
-import br.com.erudio.exceptions.ResourceNotFoundException;
-import br.com.erudio.model.Person;
-import br.com.erudio.repositories.PersonRepository;
+import java.util.List;
+import java.util.logging.Logger;
+
+import br.com.erudio.data.vo.v2.PersonVOV2;
+import br.com.erudio.mapper.custom.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.module.ResolutionException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Logger;
-
+import br.com.erudio.data.vo.v1.PersonVO;
+import br.com.erudio.exceptions.ResourceNotFoundException;
+import br.com.erudio.mapper.Mapper;
+import br.com.erudio.model.Person;
+import br.com.erudio.repositories.PersonRepository;
 
 @Service
 public class PersonServices {
 
-        private Logger logger  = Logger.getLogger(PersonServices.class.getName());
+    private Logger logger = Logger.getLogger(PersonServices.class.getName());
 
     @Autowired
     PersonRepository repository;
+    @Autowired
+    PersonMapper mapper;
 
-    public Person create(Person person){
-        logger.info("Creating one person");
+    public List<PersonVO> findAll() {
 
-        return repository.save(person);
+        logger.info("Finding all people!");
+
+        return Mapper.parseListObjects(repository.findAll(), PersonVO.class);
     }
 
-    public Person update(Person person){
-        logger.info("Updating one person");
-        var entity = repository.findById(person.getId()).orElseThrow(()-> new ResourceNotFoundException("No records for this ID"));
+    public PersonVO findById(Long id) {
+
+        logger.info("Finding one person!");
+
+        var entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+        return Mapper.parseObject(entity, PersonVO.class);
+    }
+
+    public PersonVO create(PersonVO person) {
+
+        logger.info("Creating one person! V1");
+        var entity = Mapper.parseObject(person, Person.class);
+        var vo =  Mapper.parseObject(repository.save(entity), PersonVO.class);
+        return vo;
+    }
+
+    public PersonVOV2 createV2(PersonVOV2 person) {
+        logger.info("Creating one person! V2");
+        var entity = mapper.convertVoToEntity(person);
+        var vo = mapper.convertEntityToVO(repository.save(entity));
+        return vo;
+    }
+
+
+
+    public PersonVO update(PersonVO person) {
+
+        logger.info("Updating one person!");
+
+        var entity = repository.findById(person.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 
         entity.setFirstName(person.getFirstName());
         entity.setLastName(person.getLastName());
-        entity.setAdress(person.getAdress());
+        entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return repository.save(person);
+        var vo =  Mapper.parseObject(repository.save(entity), PersonVO.class);
+        return vo;
     }
 
-    public void delete(Long id){
-        logger.info("Deleting one person");
+    public void delete(Long id) {
 
-        var entity = repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No records for this ID"));
+        logger.info("Deleting one person!");
 
+        var entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
         repository.delete(entity);
     }
-
-
-
-    public Person findByID(Long id){
-
-        logger.info("Finding one person");
-
-        return repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No records find for this id"));
-    }
-
-    public List<Person> findAll(){
-
-        logger.info("Finding all people");
-
-        return repository.findAll();
-    }
-
-
 }

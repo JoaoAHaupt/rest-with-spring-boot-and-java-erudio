@@ -1,35 +1,26 @@
-package br.com.erudio.model;
-
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
+package br.com.erudio.data.vo.v1;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name = "person")
-public class Person implements Serializable {
+
+public class PersonVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
-    @Column(name = "first_name", nullable = false, length = 80)
     private String firstName;
-    @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
-    @Column(nullable = false, length = 100)
     private String address;
-    @Column(nullable = false, length = 20)
     private String gender;
 
-    public Person(){}
+    public PersonVO(){}
 
-    public Person(Long id, String firstName, String address, String lastName, String gender) {
+    public PersonVO(Long id, String firstName, String address, String lastName, String gender) {
         this.id = id;
         this.firstName = firstName;
-        this.lastName = lastName;
+        this.lastName = address;
         this.address = address;
 
         this.gender = gender;
@@ -55,7 +46,9 @@ public class Person implements Serializable {
         return address;
     }
 
-    public void setAddress(String address){this.address = address;}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getLastName() {
         return lastName;
@@ -76,7 +69,7 @@ public class Person implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Person person)) return false;
+        if (!(o instanceof PersonVO person)) return false;
         return getId().equals(person.getId()) && getFirstName().equals(person.getFirstName()) && getAddress().equals(person.getAddress()) && getLastName().equals(person.getLastName()) && getGender().equals(person.getGender());
     }
 

@@ -1,38 +1,32 @@
-package br.com.erudio.model;
-
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
+package br.com.erudio.data.vo.v2;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
-@Entity
-@Table(name = "person")
-public class Person implements Serializable {
+
+public class PersonVOV2 implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
-    @Column(name = "first_name", nullable = false, length = 80)
     private String firstName;
-    @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
-    @Column(nullable = false, length = 100)
     private String address;
-    @Column(nullable = false, length = 20)
     private String gender;
+    private Date birthDay;
 
-    public Person(){}
+    public PersonVOV2(){}
 
-    public Person(Long id, String firstName, String address, String lastName, String gender) {
+
+    public PersonVOV2(Long id, String firstName, String lastName, String address, String gender, Date birthDay) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
-
         this.gender = gender;
+        this.birthDay = birthDay;
     }
 
     public Long getId() {
@@ -51,18 +45,20 @@ public class Person implements Serializable {
         this.firstName = firstName;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address){this.address = address;}
-
     public String getLastName() {
         return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getGender() {
@@ -73,15 +69,23 @@ public class Person implements Serializable {
         this.gender = gender;
     }
 
+    public Date getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Person person)) return false;
-        return getId().equals(person.getId()) && getFirstName().equals(person.getFirstName()) && getAddress().equals(person.getAddress()) && getLastName().equals(person.getLastName()) && getGender().equals(person.getGender());
+        if (!(o instanceof PersonVOV2 that)) return false;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getFirstName(), that.getFirstName()) && Objects.equals(getLastName(), that.getLastName()) && Objects.equals(getAddress(), that.getAddress()) && Objects.equals(getGender(), that.getGender()) && Objects.equals(getBirthDay(), that.getBirthDay());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getFirstName(),  getLastName() , getAddress() , getGender());
+        return Objects.hash(getId(), getFirstName(), getLastName(), getAddress(), getGender(), getBirthDay());
     }
 }

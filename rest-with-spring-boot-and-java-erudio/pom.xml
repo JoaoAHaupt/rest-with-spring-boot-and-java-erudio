@@ -58,7 +58,11 @@
 			<groupId>org.springframework.hateoas</groupId>
 			<artifactId>spring-hateoas</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>${java-jtw.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.mysql</groupId>

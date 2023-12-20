@@ -1,10 +1,13 @@
-package br.com.erudio.securityJwt;
+package br.com.erudio.data.vo.v1.security.jwt;
 
 import br.com.erudio.data.vo.v1.security.TokenVO;
+import br.com.erudio.exceptions.InvalidJwtAuthenticationException;
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +27,7 @@ public class JwtTokenProvider {
     @Value("security.jwt.token.secret-key:secret")
     private  String secretKey = "secret";
 
-    @Value("security.jwt.token.expire-lenght:3600000")
+    @Value("security.jwt.token.expire-length:3600000")
     private long validityInMinisecods = 3600000;
 
     @Autowired
@@ -38,7 +41,7 @@ public class JwtTokenProvider {
         algorithm = Algorithm.HMAC256(secretKey.getBytes());
     }
 
-    public TokenVO createAcessToke(String username, List<String> roles){
+    public TokenVO createAcessToken(String username, List<String> roles){
         Date now = new Date();
         Date validityDate = new Date(now.getTime()+validityInMinisecods);
         var acessToken = getAccessToken(username, roles, now, validityDate);
@@ -63,5 +66,32 @@ public class JwtTokenProvider {
     }
 
     private DecodedJWT decodedToken(String token) {
+        Algorithm alg = Algorithm.HMAC256(secretKey.getBytes());
+        JWTVerifier verifier = JWT.require(alg).build();
+
+        DecodedJWT decodedJWT = verifier.verify(token);
+        return decodedJWT;
+    }
+
+    public String resolveToken(HttpServletRequest httpRec){
+        String bearerToken = httpRec.getHeader("Authorization");
+        if (bearerToken!=null && bearerToken.startsWith("Bearer ")){
+            return bearerToken.substring("Bearer ".length());
+        }
+        return null;
+    }
+
+    public boolean validateToken(String token){
+        DecodedJWT decodedJWT = decodedToken(token);
+
+        try {
+            if (decodedJWT.getExpiresAt().before(new Date())){
+                return false;
+            }
+            return true;
+        }
+        catch (Exception e){
+            throw new InvalidJwtAuthenticationException("Expired or invalid JWT token");
+        }
     }
 }

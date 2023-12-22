@@ -16,6 +16,7 @@ public class Startup {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Startup.class, args);
+		/*
 		Pbkdf2PasswordEncoder pbkdf2PasswordEncoder = new Pbkdf2PasswordEncoder("", 8, 185000, PBKDF2WithHmacSHA256);
 
 
@@ -26,6 +27,7 @@ public class Startup {
 
 		String result = passwordEncoder.encode("JazzAdm1234");
 		System.out.println("My hash" + result);
+	*/
 	}
 
 }

@@ -3,14 +3,14 @@ package br.com.erudio.data.vo.v1.security;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class AccountCredentialVO implements Serializable {
+public class AccountCredentialsVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String username;
     private String password;
 
-    public AccountCredentialVO(String username, String password) {
+    public AccountCredentialsVO(String username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -34,7 +34,7 @@ public class AccountCredentialVO implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AccountCredentialVO that)) return false;
+        if (!(o instanceof AccountCredentialsVO that)) return false;
         return Objects.equals(getUsername(), that.getUsername()) && Objects.equals(getPassword(), that.getPassword());
     }
 

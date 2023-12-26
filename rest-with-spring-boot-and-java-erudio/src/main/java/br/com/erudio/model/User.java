@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User implements UserDetails,Serializable {
 
     private static final long serialVersionUID = 1L;

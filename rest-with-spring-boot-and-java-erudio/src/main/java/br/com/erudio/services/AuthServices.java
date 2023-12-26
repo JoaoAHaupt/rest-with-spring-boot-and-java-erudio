@@ -1,6 +1,5 @@
 package br.com.erudio.services;
 
-import br.com.erudio.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import br.com.erudio.data.vo.v1.security.AccountCredentialsVO;
 import br.com.erudio.data.vo.v1.security.TokenVO;
 import br.com.erudio.repositories.UserRepository;
+import br.com.erudio.security.jwt.JwtTokenProvider;
 
 @Service
 public class AuthServices {
@@ -20,7 +20,7 @@ public class AuthServices {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private br.com.erudio.security.jwt.JwtTokenProvider tokenProvider;
+    private JwtTokenProvider tokenProvider;
 
     @Autowired
     private UserRepository repository;

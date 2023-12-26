@@ -16,7 +16,7 @@ public class Startup {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Startup.class, args);
-		/*
+
 		Pbkdf2PasswordEncoder pbkdf2PasswordEncoder = new Pbkdf2PasswordEncoder("", 8, 185000, PBKDF2WithHmacSHA256);
 
 
@@ -25,9 +25,9 @@ public class Startup {
 		DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("pbkdf2", encoderMap);
 		passwordEncoder.setDefaultPasswordEncoderForMatches(pbkdf2PasswordEncoder);
 
-		String result = passwordEncoder.encode("JazzAdm1234");
+		String result = passwordEncoder.encode("admin123");
 		System.out.println("My hash" + result);
-	*/
+
 	}
 
 }

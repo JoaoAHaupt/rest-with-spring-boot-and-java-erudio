@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import br.com.erudio.data.vo.v1.security.AccountCredentialsVO;
 import br.com.erudio.data.vo.v1.security.TokenVO;
 import br.com.erudio.repositories.UserRepository;
-import br.com.erudio.security.jwt.JwtTokenProvider;
+import br.com.erudio.data.vo.v1.security.jwt.JwtTokenProvider;
 
 @Service
 public class AuthServices {

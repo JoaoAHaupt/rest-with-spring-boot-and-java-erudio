@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.erudio.data.vo.v1.security.jwt.JwtTokenFilter;
+import br.com.erudio.data.vo.v1.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import br.com.erudio.security.jwt.JwtTokenProvider;
+import br.com.erudio.data.vo.v1.security.jwt.JwtTokenProvider;
 
 @EnableWebSecurity
 @Configuration
@@ -52,7 +53,6 @@ public class SecurityConfig {
 
         JwtTokenFilter customFilter = new JwtTokenFilter(tokenProvider);
 
-        //@formatter:off
         return http
                 .httpBasic(basic -> basic.disable())
                 .csrf(csrf -> csrf.disable())
@@ -72,6 +72,5 @@ public class SecurityConfig {
                 )
                 .cors(cors -> {})
                 .build();
-        //@formatter:on
     }
 }

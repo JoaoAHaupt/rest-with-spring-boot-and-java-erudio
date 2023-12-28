@@ -19,6 +19,8 @@ spring:
     show-sql: false
     open-in-view : false
 spring-doc:
-  pathsToMathch: /api/**/v1/**
+  pathsToMathch:
+    -/auth/**
+    -/api/**/v1/**
   swagger-ui:
     use-root-path: true

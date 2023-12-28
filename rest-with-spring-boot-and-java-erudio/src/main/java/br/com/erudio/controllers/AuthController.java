@@ -27,13 +27,13 @@ public class AuthController {
 
     @SuppressWarnings("rawtypes")
     @Operation(summary = "Authenticates a user and returns a token")
-    @PostMapping(value = "/signin")
+    @PostMapping(value = "/signin", produces = MediaType.APPLICATION_JSON)
     public ResponseEntity signin(@RequestBody AccountCredentialsVO data) {
         if (checkIfParamsIsNotNull(data))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
         var token = authServices.signin(data);
         if (token == null) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
-        return token;
+        return ResponseEntity.ok(token);
     }
 
     @SuppressWarnings("rawtypes")
